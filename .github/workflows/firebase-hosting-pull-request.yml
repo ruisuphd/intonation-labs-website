@@ -32,11 +32,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Authenticate to Google Cloud (keyless OIDC)
+      - name: Authenticate to Google Cloud (keyless OIDC, direct WIF)
         uses: google-github-actions/auth@v2
         with:
+          project_id: intonation-web-page
           workload_identity_provider: projects/231104998690/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
-          service_account: github-action-firebase-hosting@intonation-web-page.iam.gserviceaccount.com
 
       - name: Deploy to preview channel
         id: preview

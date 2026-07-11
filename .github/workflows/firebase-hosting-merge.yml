@@ -1,13 +1,12 @@
 # Deploys to Firebase Hosting production (live channel) whenever main is updated,
 # i.e. every time a PR is merged.
 #
-# Auth is keyless via Workload Identity Federation (the org policy
-# iam.disableServiceAccountKeyCreation forbids service-account key files):
-# GitHub's OIDC token is exchanged for credentials of the deploy service
-# account. Requires the workload identity pool "github-actions" with provider
-# "github-oidc" in project intonation-web-page, and the repo bound to
-# github-action-firebase-hosting@intonation-web-page.iam.gserviceaccount.com
-# via roles/iam.workloadIdentityUser.
+# Auth is keyless via direct Workload Identity Federation (org policies forbid
+# both service-account key files and setting IAM policy on service accounts):
+# GitHub's OIDC token is exchanged directly for Google credentials. Requires
+# the workload identity pool "github-actions" with provider "github-oidc" in
+# project intonation-web-page, and the repo's principalSet granted
+# roles/firebasehosting.admin + roles/firebase.viewer on the project.
 name: Deploy to Firebase Hosting on merge
 
 on:
@@ -36,11 +35,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Authenticate to Google Cloud (keyless OIDC)
+      - name: Authenticate to Google Cloud (keyless OIDC, direct WIF)
         uses: google-github-actions/auth@v2
         with:
+          project_id: intonation-web-page
           workload_identity_provider: projects/231104998690/locations/global/workloadIdentityPools/github-actions/providers/github-oidc
-          service_account: github-action-firebase-hosting@intonation-web-page.iam.gserviceaccount.com
 
       - name: Deploy to live channel
         run: npx firebase-tools@latest deploy --only hosting --project intonation-web-page --non-interactive
