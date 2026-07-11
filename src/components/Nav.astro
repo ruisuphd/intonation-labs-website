@@ -15,7 +15,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
 <nav class="nav" role="navigation" aria-label="Main navigation">
   <div class="container nav__inner">
     <a href={localePath(lang, '/')} class="nav__logo" aria-label="Intonation Labs — Home">
-      <img src="/assets/logo.png" alt="Intonation Labs" width="36" height="36" loading="lazy">
+      <img src="/assets/logo.png" alt="Intonation Labs" width="36" height="36">
     </a>
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-menu">
       <span></span><span></span><span></span>
@@ -35,6 +35,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
           <li role="none"><a href={localePath(lang, '/intonationai')} role="menuitem" class={`nav__dropdown-link${segment === 'intonationai' ? ' is-active' : ''}`}>{t(lang, 'nav.product')}</a></li>
           <li role="none"><a href={localePath(lang, '/intomeeting')} role="menuitem" class={`nav__dropdown-link${segment === 'intomeeting' ? ' is-active' : ''}`}>{t(lang, 'nav.product.intomeeting')}</a></li>
           <li role="none"><a href={localePath(lang, '/intomarketing')} role="menuitem" class={`nav__dropdown-link${segment === 'intomarketing' ? ' is-active' : ''}`}>{t(lang, 'nav.product.intomarketing')}</a></li>
+          <li role="none"><a href="https://intobadminton.com" target="_blank" rel="noopener noreferrer" role="menuitem" class="nav__dropdown-link">{t(lang, 'nav.product.intobadminton')} <span class="nav__dropdown-ext" aria-hidden="true">&#8599;</span></a></li>
         </ul>
       </li>
       <li><a href={localePath(lang, '/portfolio')} class={`nav__link${segment === 'portfolio' ? ' is-active' : ''}`}>{t(lang, 'nav.portfolio')}</a></li>
@@ -46,12 +47,6 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
           <a href={enPath} class={`lang-toggle__btn${lang === 'en' ? ' is-active' : ''}`} aria-label="English">EN</a>
           <a href={zhPath} class={`lang-toggle__btn${lang === 'zh' ? ' is-active' : ''}`} aria-label="中文">中文</a>
         </div>
-      </li>
-      <li class="nav__theme-li">
-        <button class="nav__theme-toggle" aria-label={t(lang, 'dark.toggle')} type="button">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
       </li>
       <li><a href={localePath(lang, '/contact')} class="nav__cta">{t(lang, 'nav.cta')}</a></li>
     </ul>
@@ -149,16 +144,6 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
 })();
 </script>
 
-<script is:inline>
-  document.addEventListener('click', function(e) {
-    var btn = e.target.closest('.nav__theme-toggle');
-    if (!btn) return;
-    var html = document.documentElement;
-    var isDark = html.getAttribute('data-theme') === 'dark';
-    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
-  });
-</script>
 
 <style>
   /* Products dropdown */
@@ -232,6 +217,10 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
     color: var(--c-text-primary);
     outline: none;
   }
+  .nav__dropdown-ext {
+    font-size: 0.75em;
+    color: var(--c-text-tertiary, #71717a);
+  }
 
   /* Mobile: inline list within overlay */
   @media (max-width: 768px) {
@@ -262,36 +251,4 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
     }
   }
 
-  /* Theme toggle */
-  .nav__theme-li {
-    display: flex;
-    align-items: center;
-  }
-  .nav__theme-toggle {
-    background: none;
-    border: 1px solid var(--c-border);
-    border-radius: 8px;
-    padding: 6px;
-    cursor: pointer;
-    color: var(--c-text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .nav__theme-toggle:hover {
-    color: var(--c-text-primary);
-    border-color: var(--c-text-tertiary);
-  }
-  :global([data-theme="dark"]) .icon-sun { display: none; }
-  :global([data-theme="light"]) .icon-moon,
-  :global(:not([data-theme])) .icon-moon { display: none; }
-  :global([data-theme="dark"]) .icon-moon { display: block; }
-
-  @media (max-width: 768px) {
-    .nav__theme-li {
-      border-bottom: none !important;
-      padding: var(--s-md) 0;
-    }
-  }
 </style>

@@ -2,6 +2,7 @@
 import Base from '@/layouts/Base.astro';
 import { t, localePath } from '@/i18n/index';
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import { publications, certifications, specialisations } from '@/data/profile';
 
 const lang = 'zh';
 
@@ -76,47 +77,22 @@ const jsonLd = {
         <div class="about__sidebar reveal reveal-delay-1">
           <h3>{t(lang, 'about.certs')}</h3>
           <div class="about__certs">
-            <span class="cert-badge">IBM Data Science</span>
-            <span class="cert-badge">IBM AI Developer</span>
-            <span class="cert-badge">IBM Machine Learning</span>
-            <span class="cert-badge">IBM AI Engineering</span>
-            <span class="cert-badge">IBM GenAI Engineering</span>
-            <span class="cert-badge">IBM RAG &amp; Agentic AI</span>
-            <span class="cert-badge">IBM Data Warehouse</span>
-            <span class="cert-badge">IBM DevOps &amp; Software Eng</span>
-            <span class="cert-badge">IBM Hybrid Cloud</span>
-            <span class="cert-badge">AWS Cloud Solutions Architect</span>
-            <span class="cert-badge">AWS GenAI with Bedrock</span>
-            <span class="cert-badge">AWS GenAI Applications</span>
-            <span class="cert-badge">GCP Cloud Engineer</span>
+            {certifications.map((cert) => <span class="cert-badge">{cert}</span>)}
           </div>
 
           <h3>{t(lang, 'about.specs')}</h3>
           <div class="about__certs">
-            <span class="cert-badge">Management Consulting (Emory)</span>
-            <span class="cert-badge">LLMOps (Duke)</span>
-            <span class="cert-badge">MLOps (Duke)</span>
-            <span class="cert-badge">Digital Signal Processing (EPFL)</span>
-            <span class="cert-badge">Finance &amp; Quant Modeling (UPenn)</span>
-            <span class="cert-badge">Financial Engineering (Columbia)</span>
-            <span class="cert-badge">Mathematics for ML (Imperial College)</span>
-            <span class="cert-badge">Audio Signal Processing (Stanford)</span>
+            {specialisations.map((spec) => <span class="cert-badge">{spec}</span>)}
           </div>
 
           <h3>{t(lang, 'about.pubs')}</h3>
           <div class="about__pubs">
-            <div class="pub-item">
-              <p class="pub-item__title">A Multi-Modal Adaptive Microtuning Architecture: Bridging MTS, MPE, and MIDI 2.0 for Real-Time Just Intonation</p>
-              <p class="pub-item__venue">3rd Symposium on Digital Art in Ireland, UCC &amp; Sample-Studios — April 2026 (Accepted)</p>
-            </div>
-            <div class="pub-item">
-              <p class="pub-item__title">MIDI Adaptive Tuning Strategies by Means of AI-Based Struck-String Interaction in Ubimus</p>
-              <p class="pub-item__venue">Ubimus Journal — August 2025</p>
-            </div>
-            <div class="pub-item">
-              <p class="pub-item__title">Just Intonation and Inharmonicity in Struck-String Interaction</p>
-              <p class="pub-item__venue">Ubimus Journal — October 2024</p>
-            </div>
+            {publications.map((pub) => (
+              <div class="pub-item">
+                <p class="pub-item__title">{pub.title}</p>
+                <p class="pub-item__venue">{pub.venueZh ?? pub.venue}</p>
+              </div>
+            ))}
           </div>
 
           <h3>{t(lang, 'about.responsible')}</h3>

@@ -2,23 +2,9 @@
 import Base from '@/layouts/Base.astro';
 import { t, localePath } from '@/i18n/index';
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import { publications } from '@/data/profile';
 
 const lang = 'zh';
-
-const publications = [
-  {
-    title: 'A Multi-Modal Adaptive Microtuning Architecture for Real-Time Just Intonation on the Web',
-    venue: '3rd Symposium on Digital Art in Ireland, UCC & Sample-Studios — April 2026 (Accepted)',
-  },
-  {
-    title: 'MIDI Adaptive Tuning Strategies by Means of AI-Based Real-Time Prediction of Musical Contexts',
-    venue: 'Ubimus Journal — August 2025',
-  },
-  {
-    title: 'Just Intonation and Inharmonicity in Struck-String Interaction',
-    venue: 'Ubimus Journal — October 2024',
-  },
-];
 ---
 
 <Base
@@ -53,7 +39,7 @@ const publications = [
             <span class="tech-tag">Stripe</span>
           </div>
           <div class="portfolio-card__actions">
-            <a href={localePath(lang, '/intonationai/')} class="btn btn--ghost btn--sm">Learn More <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a href={localePath(lang, '/intonationai/')} class="btn btn--ghost btn--sm">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
             <a href="https://intonationai.app" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm">{t(lang, 'port.live')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
@@ -69,7 +55,7 @@ const publications = [
             <span class="tech-tag">WebSocket</span>
           </div>
           <div class="portfolio-card__actions">
-            <a href={localePath(lang, '/intomeeting/')} class="btn btn--ghost btn--sm">Learn More <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a href={localePath(lang, '/intomeeting/')} class="btn btn--ghost btn--sm">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
             <a href="https://intomeeting.app" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm">{t(lang, 'port.live')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
@@ -85,11 +71,26 @@ const publications = [
             <span class="tech-tag">Imagen 3</span>
           </div>
           <div class="portfolio-card__actions">
-            <a href={localePath(lang, '/intomarketing/')} class="btn btn--ghost btn--sm">Learn More <span class="arrow" aria-hidden="true">&rarr;</span></a>
+            <a href={localePath(lang, '/intomarketing/')} class="btn btn--ghost btn--sm">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
             <a href="https://intomarketing.app" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm">{t(lang, 'port.live')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
           </div>
         </div>
         <div class="portfolio-card reveal reveal-delay-4">
+          <span class="portfolio-card__tag portfolio-card__tag--live">{t(lang, 'port.6.tag')}</span>
+          <h2 class="portfolio-card__title">{t(lang, 'port.6.title')}</h2>
+          <p class="portfolio-card__desc">{t(lang, 'port.6.desc')}</p>
+          <div class="portfolio-card__tech">
+            <span class="tech-tag">Next.js 16</span>
+            <span class="tech-tag">React 19</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Tailwind CSS 4</span>
+            <span class="tech-tag">Static Export</span>
+          </div>
+          <div class="portfolio-card__actions">
+            <a href="https://intobadminton.com" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--sm">{t(lang, 'port.live')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
+        <div class="portfolio-card reveal">
           <span class="portfolio-card__tag">{t(lang, 'port.1.tag')}</span>
           <h2 class="portfolio-card__title">{t(lang, 'port.1.title')}</h2>
           <p class="portfolio-card__desc">{t(lang, 'port.1.desc')}</p>
@@ -101,7 +102,7 @@ const publications = [
             <span class="tech-tag">Ensemble ML</span>
           </div>
         </div>
-        <div class="portfolio-card reveal reveal-delay-5">
+        <div class="portfolio-card reveal">
           <span class="portfolio-card__tag">{t(lang, 'port.2.tag')}</span>
           <h2 class="portfolio-card__title">{t(lang, 'port.2.title')}</h2>
           <p class="portfolio-card__desc">{t(lang, 'port.2.desc')}</p>
@@ -119,9 +120,9 @@ const publications = [
         <h2 class="publications__heading reveal">{t(lang, 'about.pubs')}</h2>
         <div class="publications__list">
           {publications.map((pub, i) => (
-            <div class={`pub-item reveal reveal-delay-${i + 1}`}>
+            <div class={`pub-item reveal reveal-delay-${Math.min(i + 1, 4)}`}>
               <p class="pub-item__title">{pub.title}</p>
-              <p class="pub-item__venue">{pub.venue}</p>
+              <p class="pub-item__venue">{pub.venueZh ?? pub.venue}</p>
             </div>
           ))}
         </div>
