@@ -46,6 +46,16 @@ const jsonLd = [
     "url": "https://www.intonationlabs.com/",
     "inLanguage": ["en", "zh-Hans"],
     "description": "AI consulting and ML engineering firm delivering production-grade GenAI solutions worldwide."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "inLanguage": "zh-Hans",
+    "mainEntity": [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
+      "@type": "Question",
+      "name": t(lang, `faq.q${i}`),
+      "acceptedAnswer": { "@type": "Answer", "text": t(lang, `faq.a${i}`) }
+    }))
   }
 ];
 
@@ -112,15 +122,15 @@ const layersIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
           <span>{t(lang, 'cred.ucdavis')}</span>
         </div>
         <div class="credibility__item">
-          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></span>
           <span>{t(lang, 'cred.ibm')}</span>
         </div>
         <div class="credibility__item">
-          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></span>
           <span>{t(lang, 'cred.aws')}</span>
         </div>
         <div class="credibility__item">
-          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+          <span class="credibility__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg></span>
           <span>{t(lang, 'cred.gcp')}</span>
         </div>
         <div class="credibility__item">
@@ -149,13 +159,50 @@ const layersIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
         <ServiceCard icon={layersIcon} title={t(lang, 'svc.3.title')} desc={t(lang, 'svc.3.desc')} scope={t(lang, 'svc.3.scope')} delay={3} />
       </div>
       <div class="text-center mt-2xl reveal">
-        <a href={localePath(lang, '/services')} class="btn btn--ghost">View All Services <span class="arrow" aria-hidden="true">&rarr;</span></a>
+        <a href={localePath(lang, '/services')} class="btn btn--ghost">{t(lang, 'svc.viewall')} <span class="arrow" aria-hidden="true">&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section id="products" class="section section--alt" aria-labelledby="products-title">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__label">{t(lang, 'home.products.label')}</p>
+        <h2 id="products-title" class="section__title">{t(lang, 'home.products.title')}</h2>
+        <p class="section__subtitle">{t(lang, 'home.products.subtitle')}</p>
+      </div>
+      <div class="products-strip">
+        <a href={localePath(lang, '/intonationai')} class="product-tile reveal reveal-delay-1">
+          <span class="product-tile__tag">{t(lang, 'port.3.tag')}</span>
+          <span class="product-tile__name">IntonationAI</span>
+          <p class="product-tile__desc">{t(lang, 'home.products.intonationai')}</p>
+          <span class="product-tile__link">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a href={localePath(lang, '/intomeeting')} class="product-tile reveal reveal-delay-2">
+          <span class="product-tile__tag">{t(lang, 'port.4.tag')}</span>
+          <span class="product-tile__name">IntoMeeting</span>
+          <p class="product-tile__desc">{t(lang, 'home.products.intomeeting')}</p>
+          <span class="product-tile__link">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a href={localePath(lang, '/intomarketing')} class="product-tile reveal reveal-delay-3">
+          <span class="product-tile__tag">{t(lang, 'port.5.tag')}</span>
+          <span class="product-tile__name">IntoMarketing</span>
+          <p class="product-tile__desc">{t(lang, 'home.products.intomarketing')}</p>
+          <span class="product-tile__link">{t(lang, 'port.learnmore')} <span class="arrow" aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a href="https://intobadminton.com" target="_blank" rel="noopener noreferrer" class="product-tile reveal reveal-delay-4">
+          <span class="product-tile__tag">{t(lang, 'port.6.tag')}</span>
+          <span class="product-tile__name">IntoBadminton</span>
+          <p class="product-tile__desc">{t(lang, 'home.products.intobadminton')}</p>
+          <span class="product-tile__link">{t(lang, 'home.products.visit')} <span class="arrow" aria-hidden="true">&#8599;</span></span>
+        </a>
       </div>
     </div>
   </section>
 
   <!-- Process -->
-  <section class="section section--alt" aria-labelledby="process-title">
+  <section class="section" aria-labelledby="process-title">
     <div class="container">
       <div class="section__header text-center reveal">
         <p class="section__label">{t(lang, 'proc.label')}</p>
@@ -188,7 +235,7 @@ const layersIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="section" aria-labelledby="faq-title">
+  <section id="faq" class="section section--alt" aria-labelledby="faq-title">
     <div class="container">
       <div class="section__header reveal">
         <p class="section__label">{t(lang, 'faq.label')}</p>

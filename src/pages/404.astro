@@ -1,0 +1,53 @@
+---
+import Base from '@/layouts/Base.astro';
+import { t, localePath } from '@/i18n/index';
+
+const lang = 'en';
+---
+
+<Base
+  title={t(lang, 'page.404.title')}
+  description={t(lang, 'page.404.desc')}
+  lang={lang}
+  canonicalPath="/404"
+  noindex
+>
+  <section class="section notfound">
+    <div class="container text-center">
+      <p class="notfound__code" aria-hidden="true">{t(lang, 'notfound.code')}</p>
+      <h1 class="section__title">{t(lang, 'notfound.title')}</h1>
+      <p class="section__subtitle mx-auto">{t(lang, 'notfound.desc')}</p>
+      <p class="section__subtitle mx-auto notfound__zh" lang="zh-Hans">{t('zh', 'notfound.desc')}</p>
+      <div class="notfound__actions">
+        <a href={localePath(lang, '/')} class="btn btn--primary">{t(lang, 'notfound.home')}</a>
+        <a href={localePath(lang, '/contact')} class="btn btn--outline">{t(lang, 'notfound.contact')}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notfound {
+    padding-top: calc(var(--nav-h) + var(--s-4xl));
+  }
+  .notfound__code {
+    font-family: var(--f-heading);
+    font-size: clamp(4rem, 12vw, 7rem);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--c-border);
+    margin-bottom: var(--s-md);
+  }
+  .notfound__zh {
+    margin-top: var(--s-sm);
+    font-size: 0.9375rem;
+    color: var(--c-text-tertiary);
+  }
+  .notfound__actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--s-md);
+    flex-wrap: wrap;
+    margin-top: var(--s-xl);
+  }
+</style>

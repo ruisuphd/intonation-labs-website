@@ -15,7 +15,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
 <nav class="nav" role="navigation" aria-label="Main navigation">
   <div class="container nav__inner">
     <a href={localePath(lang, '/')} class="nav__logo" aria-label="Intonation Labs — Home">
-      <img src="/assets/logo.png" alt="Intonation Labs" width="36" height="36" loading="lazy">
+      <img src="/assets/logo.png" alt="Intonation Labs" width="36" height="36">
     </a>
     <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-menu">
       <span></span><span></span><span></span>
@@ -35,6 +35,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
           <li role="none"><a href={localePath(lang, '/intonationai')} role="menuitem" class={`nav__dropdown-link${segment === 'intonationai' ? ' is-active' : ''}`}>{t(lang, 'nav.product')}</a></li>
           <li role="none"><a href={localePath(lang, '/intomeeting')} role="menuitem" class={`nav__dropdown-link${segment === 'intomeeting' ? ' is-active' : ''}`}>{t(lang, 'nav.product.intomeeting')}</a></li>
           <li role="none"><a href={localePath(lang, '/intomarketing')} role="menuitem" class={`nav__dropdown-link${segment === 'intomarketing' ? ' is-active' : ''}`}>{t(lang, 'nav.product.intomarketing')}</a></li>
+          <li role="none"><a href="https://intobadminton.com" target="_blank" rel="noopener noreferrer" role="menuitem" class="nav__dropdown-link">{t(lang, 'nav.product.intobadminton')} <span class="nav__dropdown-ext" aria-hidden="true">&#8599;</span></a></li>
         </ul>
       </li>
       <li><a href={localePath(lang, '/portfolio')} class={`nav__link${segment === 'portfolio' ? ' is-active' : ''}`}>{t(lang, 'nav.portfolio')}</a></li>
@@ -231,6 +232,10 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
     background: var(--c-bg, #f9fafb);
     color: var(--c-text-primary);
     outline: none;
+  }
+  .nav__dropdown-ext {
+    font-size: 0.75em;
+    color: var(--c-text-tertiary, #71717a);
   }
 
   /* Mobile: inline list within overlay */
