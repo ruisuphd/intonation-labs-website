@@ -15,6 +15,7 @@ const { lang } = Astro.props;
   data-success={t(lang, 'contact.success')}
   data-error={t(lang, 'contact.error')}
   data-sending={t(lang, 'contact.sending')}
+  data-ratelimit={t(lang, 'contact.ratelimit')}
 >
   <!-- Honeypot field for bot detection -->
   <div style="position: absolute; left: -9999px; opacity: 0;" aria-hidden="true">
@@ -53,7 +54,7 @@ const { lang } = Astro.props;
     <textarea class="contact-form__textarea" id="message" name="message" required></textarea>
   </div>
   <button type="submit" class="btn btn--primary btn--lg">{t(lang, 'contact.submit')}</button>
-  <div id="form-status" class="contact-form__status"></div>
+  <div id="form-status" class="contact-form__status" role="status" aria-live="polite"></div>
 </form>
 
 <script>
@@ -62,16 +63,21 @@ const { lang } = Astro.props;
     const successMsg = form.dataset.success!;
     const errorMsg = form.dataset.error!;
     const sendingMsg = form.dataset.sending!;
+    const rateLimitMsg = form.dataset.ratelimit!;
 
-    function clearValidation() {
-      form.querySelectorAll<HTMLElement>('[aria-invalid]').forEach((el) => {
-        el.removeAttribute('aria-invalid');
-        el.removeAttribute('aria-describedby');
-      });
-      form.querySelectorAll('.contact-form__field-error').forEach((el) => el.remove());
+    type FormField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
+    function clearFieldError(field: FormField) {
+      field.removeAttribute('aria-invalid');
+      field.removeAttribute('aria-describedby');
+      document.getElementById(field.id + '-error')?.remove();
     }
 
-    function markInvalid(field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
+    function clearValidation() {
+      form.querySelectorAll<FormField>('[aria-invalid]').forEach(clearFieldError);
+    }
+
+    function markInvalid(field: FormField) {
       const errorId = field.id + '-error';
       field.setAttribute('aria-invalid', 'true');
       field.setAttribute('aria-describedby', errorId);
@@ -86,6 +92,12 @@ const { lang } = Astro.props;
         msg.textContent = field.validationMessage || 'This field is required.';
         field.parentElement?.appendChild(msg);
       }
+      field.addEventListener('input', function onInput() {
+        if (field.validity.valid) {
+          clearFieldError(field);
+          field.removeEventListener('input', onInput);
+        }
+      });
     }
 
     form.addEventListener('submit', async (e) => {
@@ -96,26 +108,25 @@ const { lang } = Astro.props;
       const status = document.getElementById('form-status')!;
       const originalText = btn.textContent;
 
-      // Honeypot check — if filled, silently pretend success (bots fill hidden fields)
-      const honeypot = (form.querySelector<HTMLInputElement>('input[name="website"]'))!;
+      // Honeypot — bots fill hidden fields; pretend success so they move on
+      const honeypot = form.querySelector<HTMLInputElement>('input[name="website"]');
       if (honeypot && honeypot.value) {
-        status.classList.add('contact-form__status--success');
+        status.className = 'contact-form__status contact-form__status--success';
         status.textContent = successMsg;
         form.reset();
         return;
       }
 
-      // Client-side rate limiting — max 3 submissions per session
+      // Cap submissions per browser session to discourage repeat spam
       const RATE_KEY = 'contact_submit_count';
       const submitCount = parseInt(sessionStorage.getItem(RATE_KEY) || '0', 10);
       if (submitCount >= 3) {
-        status.classList.add('contact-form__status--error');
-        status.textContent = errorMsg;
+        status.className = 'contact-form__status contact-form__status--error';
+        status.textContent = rateLimitMsg;
         return;
       }
 
-      // Validate required fields
-      const requiredFields = form.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[required]');
+      const requiredFields = form.querySelectorAll<FormField>('[required]');
       let firstInvalid: HTMLElement | null = null;
       requiredFields.forEach((field) => {
         if (!field.validity.valid) {

@@ -85,19 +85,33 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
   var dropdownLi = document.querySelector(".nav__dropdown-li");
   var dropdownToggle = dropdownLi ? dropdownLi.querySelector(".nav__dropdown-toggle") : null;
   var dropdown = dropdownLi ? dropdownLi.querySelector(".nav__dropdown") : null;
-  function setDropdown(isOpen) {
+  function setDropdown(isOpen, moveFocus) {
     if (!dropdownLi || !dropdownToggle || !dropdown) return;
     dropdownLi.classList.toggle("is-dropdown-open", isOpen);
     dropdownToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    if (isOpen) {
+    if (isOpen && moveFocus) {
       var firstLink = dropdown.querySelector('a');
       if (firstLink) firstLink.focus();
     }
   }
   if (dropdownToggle && dropdown) {
     dropdownToggle.addEventListener("click", function (e) {
-      setDropdown(!dropdownLi.classList.contains("is-dropdown-open"));
+      setDropdown(!dropdownLi.classList.contains("is-dropdown-open"), true);
       e.stopPropagation();
+    });
+
+    // Desktop pointer users can open the menu by hovering; the delay on
+    // mouseleave keeps it from snapping shut while moving into the panel.
+    var hoverMedia = window.matchMedia("(hover: hover) and (min-width: 769px)");
+    var hoverCloseTimer = null;
+    dropdownLi.addEventListener("mouseenter", function () {
+      if (!hoverMedia.matches) return;
+      clearTimeout(hoverCloseTimer);
+      setDropdown(true, false);
+    });
+    dropdownLi.addEventListener("mouseleave", function () {
+      if (!hoverMedia.matches) return;
+      hoverCloseTimer = setTimeout(function () { setDropdown(false); }, 200);
     });
     document.addEventListener("click", function () { setDropdown(false); });
     document.addEventListener("keydown", function (e) {
@@ -187,7 +201,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
     top: calc(100% + 8px);
     left: 50%;
     transform: translateX(-50%);
-    background: var(--c-surface, #fff);
+    background: var(--c-bg, #fff);
     border: 1px solid var(--c-border, #e5e7eb);
     border-radius: 8px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.10);
@@ -197,6 +211,21 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
   }
   .nav__dropdown-li.is-dropdown-open .nav__dropdown {
     display: block;
+  }
+  /* Desktop only: fade/slide instead of an instant display toggle */
+  @media (min-width: 769px) {
+    .nav__dropdown {
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(6px);
+      transition: opacity var(--t-fast) ease, transform var(--t-fast) ease, visibility var(--t-fast);
+    }
+    .nav__dropdown-li.is-dropdown-open .nav__dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
   }
   .nav__dropdown-link {
     display: block;
@@ -209,12 +238,12 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
   }
   .nav__dropdown-link:hover,
   .nav__dropdown-link.is-active {
-    background: var(--c-bg, #f9fafb);
-    color: var(--c-text-primary);
+    background: var(--c-bg-subtle, #f4f4f5);
+    color: var(--c-text);
   }
   .nav__dropdown-link:focus-visible {
-    background: var(--c-bg, #f9fafb);
-    color: var(--c-text-primary);
+    background: var(--c-bg-subtle, #f4f4f5);
+    color: var(--c-text);
     outline: none;
   }
   .nav__dropdown-ext {
@@ -239,7 +268,7 @@ const segment = rawPath.replace(/^\/?zh\/?/, '/').replace(/^\//, '').split('/')[
       transform: none;
       box-shadow: none;
       border: none;
-      border-left: 2px solid var(--c-accent, #0070C0);
+      border-left: 2px solid var(--c-accent, #2563eb);
       border-radius: 0;
       padding: 4px 0 4px 12px;
       margin-top: 0;

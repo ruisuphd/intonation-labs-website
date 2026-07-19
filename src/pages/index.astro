@@ -50,16 +50,12 @@ const jsonLd = [
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "What AI consulting services does Intonation Labs offer?", "acceptedAnswer": { "@type": "Answer", "text": "We offer production ML deployment, Generative AI and RAG system design, agentic AI architecture, real-time inference systems, voice & audio AI, LLM integration, and AI strategy consulting. We also deliver hands-on workshops and corporate training." } },
-      { "@type": "Question", "name": "What is IntonationAI?", "acceptedAnswer": { "@type": "Answer", "text": "IntonationAI is an AI-powered music coaching platform for voice, piano, and guitar. It combines real-time audio analysis with AI-powered qualitative feedback, telling you not just what went wrong, but why and how to improve. It includes a spaced-repetition curriculum, warmup exercises, and a song library." } },
-      { "@type": "Question", "name": "Where is Intonation Labs based?", "acceptedAnswer": { "@type": "Answer", "text": "Intonation Labs Pte. Ltd. is registered in Singapore, serving clients across Southeast Asia and globally." } },
-      { "@type": "Question", "name": "What are your consulting rates?", "acceptedAnswer": { "@type": "Answer", "text": "Our rates depend on scope and complexity. We primarily work on project-based pricing for budget certainty. We also offer monthly retainers. Contact us for a quote." } },
-      { "@type": "Question", "name": "Do you work with companies outside Singapore?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. We work with clients globally. We are bilingual in English and Mandarin Chinese, well-positioned for Southeast Asia, Greater China, and English-speaking markets." } },
-      { "@type": "Question", "name": "Can I attend your workshops remotely?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Our workshops are available both virtually and in-person in Singapore. Corporate training can be on-site or virtual." } },
-      { "@type": "Question", "name": "What is a typical project timeline?", "acceptedAnswer": { "@type": "Answer", "text": "AI strategy assessments take 1-2 weeks. GenAI and RAG implementations run 4-10 weeks. Full production ML deployments range from 8-20 weeks." } },
-      { "@type": "Question", "name": "What industries do you serve?", "acceptedAnswer": { "@type": "Answer", "text": "We work across fintech, retail, logistics, e-commerce, healthcare, and education — specialising in AI/ML systems requiring production reliability and real-time performance." } }
-    ]
+    "inLanguage": "en",
+    "mainEntity": [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({
+      "@type": "Question",
+      "name": t(lang, `faq.q${i}`),
+      "acceptedAnswer": { "@type": "Answer", "text": t(lang, `faq.a${i}`) }
+    }))
   }
 ];
 
