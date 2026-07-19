@@ -5,7 +5,15 @@ interface Props {
 }
 
 const { question, answer } = Astro.props;
-const faqId = `faq-${question.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '').toLowerCase().slice(0, 40)}`;
+
+// Slug alone would collide for non-Latin questions (e.g. Chinese strips to ""),
+// so append a hash of the full text to keep ids unique per question.
+let hash = 0;
+for (let i = 0; i < question.length; i++) {
+  hash = (hash * 31 + question.charCodeAt(i)) >>> 0;
+}
+const slug = question.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '').toLowerCase().slice(0, 32);
+const faqId = `faq-${slug}-${hash.toString(36)}`;
 ---
 
 <div class="faq-item">

@@ -188,7 +188,9 @@ const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
     document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
       anchor.addEventListener("click", function (e) {
-        var target = document.querySelector(this.getAttribute("href"));
+        var id = this.getAttribute("href").slice(1);
+        if (!id) return;
+        var target = document.getElementById(id);
         if (target) { e.preventDefault(); target.scrollIntoView({ behavior: "smooth" }); }
       });
     });
@@ -198,23 +200,14 @@ const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
   <CookieConsent lang={lang} />
 
   <script is:inline>
-    // Global error handler
-    window.addEventListener('error', function(e) {
-      console.warn('[Intonation Labs] Script error caught:', e.message);
-    });
-    window.addEventListener('unhandledrejection', function(e) {
-      console.warn('[Intonation Labs] Promise rejection caught:', e.reason);
-    });
-    // Web Vitals (inline, no dependency)
+    // Report LCP and CLS to GA (only active once analytics consent is given)
     if ('PerformanceObserver' in window) {
       try {
-        // LCP
         new PerformanceObserver(function(list) {
           var entries = list.getEntries();
           var last = entries[entries.length - 1];
           if (window.gtag) gtag('event', 'web_vital', { event_category: 'Web Vitals', event_label: 'LCP', value: Math.round(last.startTime) });
         }).observe({ type: 'largest-contentful-paint', buffered: true });
-        // CLS
         var clsValue = 0;
         new PerformanceObserver(function(list) {
           list.getEntries().forEach(function(entry) { if (!entry.hadRecentInput) clsValue += entry.value; });
@@ -226,9 +219,12 @@ const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
         });
       } catch(e) {}
     }
-    // Offline detection
+
     window.addEventListener('offline', function() {
-      document.body.insertAdjacentHTML('afterbegin', '<div id="offline-bar" style="position:fixed;top:0;left:0;right:0;z-index:10000;background:#ef4444;color:#fff;text-align:center;padding:8px;font-size:14px;">You are offline. Some features may be unavailable.</div>');
+      var msg = document.documentElement.lang === 'zh-Hans'
+        ? '您已离线，部分功能可能不可用。'
+        : 'You are offline. Some features may be unavailable.';
+      document.body.insertAdjacentHTML('afterbegin', '<div id="offline-bar" style="position:fixed;top:0;left:0;right:0;z-index:10000;background:#ef4444;color:#fff;text-align:center;padding:8px;font-size:14px;">' + msg + '</div>');
     });
     window.addEventListener('online', function() {
       var bar = document.getElementById('offline-bar');

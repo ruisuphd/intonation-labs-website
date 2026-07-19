@@ -52,7 +52,7 @@ const { lang } = Astro.props;
     <div class="cookie-banner__actions">
       <button class="cookie-banner__btn cookie-banner__btn--primary" id="cookie-accept-all" type="button">{t(lang, 'cookie.accept')}</button>
       <button class="cookie-banner__btn cookie-banner__btn--outline" id="cookie-reject" type="button">{t(lang, 'cookie.reject')}</button>
-      <button class="cookie-banner__btn cookie-banner__btn--ghost" id="cookie-manage" type="button">{t(lang, 'cookie.save')}</button>
+      <button class="cookie-banner__btn cookie-banner__btn--ghost" id="cookie-manage" type="button" data-save-label={t(lang, 'cookie.save')}>{t(lang, 'cookie.manage')}</button>
     </div>
   </div>
 </div>
@@ -129,36 +129,35 @@ const { lang } = Astro.props;
     }
   });
 
-  // Button handlers
   acceptBtn.addEventListener('click', function() { setConsent(true, true); });
   rejectBtn.addEventListener('click', function() { setConsent(false, false); });
 
   var prefsOpen = false;
+  function openPrefs() {
+    prefsPanel.hidden = false;
+    prefsOpen = true;
+    manageBtn.textContent = manageBtn.dataset.saveLabel;
+  }
+
   manageBtn.addEventListener('click', function() {
     if (!prefsOpen) {
-      prefsPanel.hidden = false;
-      prefsOpen = true;
-      manageBtn.textContent = manageBtn.textContent; // keep same text, acts as save now
+      openPrefs();
     } else {
       setConsent(analyticsToggle.checked, marketingToggle.checked);
     }
   });
 
-  // Init: check if consent exists
-  var existing = getConsent();
-  if (!existing) {
+  if (!getConsent()) {
     showBanner();
   }
 
-  // Listen for re-open from footer
   window.addEventListener('open-cookie-settings', function() {
     var consent = getConsent();
     if (consent) {
       analyticsToggle.checked = consent.analytics;
       marketingToggle.checked = consent.marketing;
     }
-    prefsPanel.hidden = false;
-    prefsOpen = true;
+    openPrefs();
     showBanner();
   });
 })();
@@ -222,6 +221,9 @@ const { lang } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+  .cookie-banner__prefs[hidden] {
+    display: none;
   }
   .cookie-banner__category {
     border: 1px solid var(--c-border, #e4e4e7);

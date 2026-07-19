@@ -23,10 +23,6 @@
   --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
   --shadow-lg: 0 12px 40px rgba(0,0,0,0.08);
   --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px; --r-full: 9999px;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --c-text-primary: #0a0a0a;
-  --c-surface: #ffffff;
-  --c-accent-hover: #1d4ed8;
   color-scheme: light;
 }
 
@@ -137,7 +133,8 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--f-heading); color: var(--c-text); li
 }
 
 /* ── Buttons ── */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-sm); font-family: var(--f-heading); font-size: 0.9375rem; font-weight: 600; padding: 0.75rem 1.75rem; border-radius: var(--r-full); border: none; cursor: pointer; text-decoration: none; line-height: 1.4; transition: all var(--t-base) var(--ease-out); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s-sm); font-family: var(--f-heading); font-size: 0.9375rem; font-weight: 600; padding: 0.75rem 1.75rem; border-radius: var(--r-full); border: none; cursor: pointer; text-decoration: none; line-height: 1.4; transition: all var(--t-fast) var(--ease-out); }
+.btn:active { transform: scale(0.97); }
 .btn--primary { background: #0a0a0a; color: #fff; }
 .btn--primary:hover { background: var(--c-accent); color: #fff; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(37,99,235,0.2); }
 .btn--outline { background: transparent; color: var(--c-text); border: 1.5px solid var(--c-border); }
@@ -152,9 +149,14 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--f-heading); color: var(--c-text); li
 .btn--outline-light:hover { border-color: #fff; background: rgba(255,255,255,0.06); color: #fff; transform: translateY(-2px); }
 
 /* Focus states for keyboard accessibility */
-a:focus-visible {
+:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+a:focus-visible {
   border-radius: 2px;
 }
 .nav__link:focus-visible {
@@ -204,7 +206,7 @@ a:focus-visible {
 /* ── Services ── */
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-lg); }
 .service-card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); padding: var(--s-xl); transition: all var(--t-base) var(--ease-out); }
-.service-card:hover { border-color: var(--c-text-tertiary); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.service-card:hover { border-color: var(--c-text-tertiary); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 .service-card__icon { width: 44px; height: 44px; background: var(--c-bg-subtle); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; margin-bottom: var(--s-md); color: var(--c-text); }
 .service-card__icon svg { width: 22px; height: 22px; }
 .service-card__title { font-family: var(--f-heading); font-size: 1.0625rem; font-weight: 600; color: var(--c-text); margin-bottom: var(--s-sm); }
@@ -248,7 +250,7 @@ a:focus-visible {
 
 /* ── Portfolio ── */
 .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-lg); }
-.portfolio-card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--r-lg); padding: var(--s-xl); transition: all var(--t-base) var(--ease-out); border-top: 2px solid var(--c-accent); }
+.portfolio-card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); padding: var(--s-xl); transition: all var(--t-base) var(--ease-out); border-top: 2px solid var(--c-accent); }
 .portfolio-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .portfolio-card__tag { display: inline-block; font-family: var(--f-heading); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--c-accent); background: var(--c-accent-glow); padding: 0.2rem 0.6rem; border-radius: var(--r-full); margin-bottom: var(--s-md); }
 .portfolio-card__title { font-family: var(--f-heading); font-size: 1.125rem; font-weight: 600; color: var(--c-text); margin-bottom: var(--s-sm); }
@@ -273,7 +275,7 @@ a:focus-visible {
 /* ── Workshops ── */
 .workshops-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-lg); }
 .workshop-card { background: var(--c-bg); border: 1px solid var(--c-border); border-radius: var(--r-lg); padding: var(--s-xl); display: flex; flex-direction: column; transition: all var(--t-base) var(--ease-out); }
-.workshop-card:hover { border-color: var(--c-text-tertiary); box-shadow: var(--shadow-md); }
+.workshop-card:hover { border-color: var(--c-text-tertiary); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 .workshop-card__format { display: inline-flex; font-family: var(--f-heading); font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: var(--r-full); margin-bottom: var(--s-md); width: fit-content; }
 .workshop-card__format--hands-on { background: #dcfce7; color: #166534; }
 .workshop-card__format--strategic { background: #fef3c7; color: #92400e; }
@@ -446,7 +448,7 @@ a:focus-visible {
   max-width: 900px;
 }
 .pricing-card {
-  background: var(--c-surface);
+  background: var(--c-bg);
   border: 1px solid var(--c-border);
   border-radius: 12px;
   padding: var(--s-xl);
@@ -455,7 +457,7 @@ a:focus-visible {
   gap: var(--s-sm);
   align-items: flex-start;
   position: relative;
-  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
+  transition: transform var(--t-base) var(--ease-out), box-shadow var(--t-base) var(--ease-out);
 }
 .pricing-card:hover {
   transform: translateY(-2px);
@@ -493,7 +495,7 @@ a:focus-visible {
   font-family: var(--f-heading);
   font-size: 2rem;
   font-weight: 700;
-  color: var(--c-text-primary);
+  color: var(--c-text);
   line-height: 1;
 }
 .pricing-card__annual {
@@ -528,42 +530,13 @@ a:focus-visible {
   font-weight: 700;
 }
 
-/* Card hover effects */
-.service-card,
-.workshop-card,
-.product__feature {
-  transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease);
-}
-.service-card:hover,
-.workshop-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-/* Button enhancements */
-.btn {
-  transition: all var(--t-fast) var(--ease);
-}
-.btn:active {
-  transform: scale(0.97);
-}
-
-/* Focus visible */
-:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-:focus:not(:focus-visible) {
-  outline: none;
-}
-
 /* Scroll-to-top button */
 .scroll-top {
   position: fixed;
   bottom: 140px;
   right: 24px;
   z-index: 90;
-  background: var(--c-surface);
+  background: var(--c-bg);
   border: 1px solid var(--c-border);
   border-radius: 50%;
   width: 44px;
@@ -577,7 +550,7 @@ a:focus-visible {
   opacity: 0;
   visibility: hidden;
   transform: translateY(8px);
-  transition: opacity var(--t-base) var(--ease), visibility var(--t-base) var(--ease), transform var(--t-base) var(--ease), color var(--t-fast);
+  transition: opacity var(--t-base) var(--ease-out), visibility var(--t-base) var(--ease-out), transform var(--t-base) var(--ease-out), color var(--t-fast);
 }
 .scroll-top.visible {
   opacity: 1;
@@ -585,7 +558,7 @@ a:focus-visible {
   transform: translateY(0);
 }
 .scroll-top:hover {
-  color: var(--c-text-primary);
+  color: var(--c-text);
   border-color: var(--c-text-tertiary);
 }
 
